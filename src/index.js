@@ -1,21 +1,22 @@
 const fs = require('fs');
 const http = require('http');
-const puzzleNames = ["1"];
 
-function getSolutions () {
+function getSolutions (puzzleIds) {
     let solutionsMessage = "";
-    puzzleNames.forEach((puzzleName) => {
-        const inputFilePath = `assets/puzzle-input/day${puzzleName}.txt`;
+    puzzleIds.forEach((puzzleId) => {
+        const inputFilePath = `assets/puzzle-input/day${puzzleId}.txt`;
         const inputDataAsString = fs.readFileSync(inputFilePath).toString();
-        const puzzleAnswer = require('./puzzle-solvers/day1')(inputDataAsString);
-        solutionsMessage += `\n${puzzleName}: ${puzzleAnswer}`;
+        const puzzleAnswer = require(`./puzzle-solvers/day${puzzleId}`)(inputDataAsString);
+        solutionsMessage += `\n${puzzleId}: ${puzzleAnswer}`;
     })
     return solutionsMessage;
 }
+module.exports = getSolutions;
 
 http.createServer(function (req, res) {
-    const inputDataAsString = fs.readFileSync(`assets/puzzle-input/day${"1"}.txt`).toString();
-    res.write(getSolutions());
+    const puzzleIds = ["1"];
+    const solutions = getSolutions(puzzleIds);
+    res.write(solutions);
     res.end();
 }) 
 .listen(8080);

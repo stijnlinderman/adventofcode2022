@@ -1,8 +1,8 @@
-const getSolution = require('../index');
+const getSolutions = require('../src/index');
 const { expect } = require("chai");
 
-describe ('single value input', () => {
-    it ('should be solved to the same answer', () => {
-        expect(getSolution("1000")).to.equal("1000");
+describe ('getSolutions', () => {
+    it ('should return a string', () => {
+        expect(typeof getSolutions([])).to.equal(typeof "");
     })
 })
