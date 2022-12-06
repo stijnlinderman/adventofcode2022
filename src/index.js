@@ -14,7 +14,7 @@ function getSolutions (puzzleIds) {
 module.exports = getSolutions;
 
 http.createServer(function (req, res) {
-    const puzzleIds = ["1","6"];
+    const puzzleIds = ["1", "6", "6-2"];
     const solutions = getSolutions(puzzleIds);
     res.write(solutions);
     res.end();

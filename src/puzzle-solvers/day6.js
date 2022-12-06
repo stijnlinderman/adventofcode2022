@@ -33,4 +33,4 @@ function areAllArrayEntriesUnique (array) {
     return true;
 }
 
-module.exports = {getSolution,};
+module.exports = {getSolution, getIndexOfFirstSetOfUniqueCharacters};
