@@ -7,14 +7,14 @@ function getSolutions (puzzleIds) {
         const inputFilePath = `assets/puzzle-input/day${puzzleId}.txt`;
         const inputDataAsString = fs.readFileSync(inputFilePath).toString();
         const puzzleAnswer = require(`./puzzle-solvers/day${puzzleId}`)(inputDataAsString);
-        solutionsMessage += `\n${puzzleId}: ${puzzleAnswer}`;
+        solutionsMessage += `\nDay ${puzzleId}: ${puzzleAnswer}`;
     })
     return solutionsMessage;
 }
 module.exports = getSolutions;
 
 http.createServer(function (req, res) {
-    const puzzleIds = ["1"];
+    const puzzleIds = ["1","6"];
     const solutions = getSolutions(puzzleIds);
     res.write(solutions);
     res.end();
