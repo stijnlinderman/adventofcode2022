@@ -6,7 +6,7 @@ function getSolutions (puzzleIds) {
     puzzleIds.forEach((puzzleId) => {
         const inputFilePath = `assets/puzzle-input/day${puzzleId}.txt`;
         const inputDataAsString = fs.readFileSync(inputFilePath).toString();
-        const puzzleAnswer = require(`./puzzle-solvers/day${puzzleId}`)(inputDataAsString);
+        const puzzleAnswer = require(`./puzzle-solvers/day${puzzleId}`).getSolution(inputDataAsString);
         solutionsMessage += `\nDay ${puzzleId}: ${puzzleAnswer}`;
     })
     return solutionsMessage;

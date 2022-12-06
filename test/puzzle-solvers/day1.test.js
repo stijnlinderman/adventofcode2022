@@ -1,7 +1,7 @@
-const getSolution = require('../../src/puzzle-solvers/day1');
+const { getSolution } = require('../../src/puzzle-solvers/day1');
 const { expect } = require("chai");
 
-describe ('getSolution', () => {
+describe ('day 1 getSolution', () => {
     let input;
 
     it ('returns 1000 when only 1000 is input', () => {
