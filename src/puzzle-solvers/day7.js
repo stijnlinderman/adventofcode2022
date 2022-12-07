@@ -6,11 +6,16 @@ function getSolution (inputDataAsString) {
 }
 
 class Directory {
-    name;
-    parentDirectory;
-    subDirectories = new Map();
-    files = new Map();
-    size;
+    #name;
+    #parentDirectory;
+    #subDirectories = new Map();
+    #files = new Map();
+    #size;
+
+    constructor (directoryName, parentDirectory) {
+        this.#name = directoryName;
+        this.#parentDirectory = parentDirectory;
+    }
 
     static createDirectoryMapFromInputData (inputDataAsString) {
         const lines = inputDataAsString.split(LINE_SEPARATOR);
@@ -27,12 +32,12 @@ class Directory {
                     switch (command) {
                         case "cd":
                             const directoryNameToGoTo = lineElements[2];
-                            switch (directoryNameToGoTo) { // go back to the parent directory
-                                case "..":
-                                    currentDirectory = currentDirectory.parentDirectory;
+                            switch (directoryNameToGoTo) {
+                                case "..": // go back to the parent directory
+                                    currentDirectory = currentDirectory.getParentDirectory();
                                     break;
                                 default: // go into a subdirectory
-                                    currentDirectory = currentDirectory.subDirectories.get(directoryNameToGoTo);
+                                    currentDirectory = currentDirectory.getSubDirectoryByName(directoryNameToGoTo);
                             }
                             break;
                         case "ls":
@@ -57,35 +62,62 @@ class Directory {
         return rootDirectory;
     }
 
-    constructor (directoryName, parentDirectory) {
-        this.name = directoryName;
-        this.parentDirectory = parentDirectory;
-    }
-
     addSubDirectory (subDirectory) {
-        this.subDirectories.set(subDirectory.name, subDirectory)
+        this.getSubDirectories().set(subDirectory.getName(), subDirectory)
     }
 
     addFile (fileSize, fileName) {
-        this.files.set(fileName, fileSize);
+        this.getFiles().set(fileName, fileSize);
+    }
+
+    getName () {
+        return this.#name;
+    }
+
+    getParentDirectory () {
+        return this.#parentDirectory;
+    }
+
+    getSubDirectories () {
+        return this.#subDirectories;
+    }
+
+    getSubDirectoryByName (subDirectoryName) {
+        return this.getSubDirectories().get(subDirectoryName);
+    }
+
+    getFiles () {
+        return this.#files;
+    }
+
+    getSize () {
+        return this.#size;
+    }
+
+    setSize (size) {
+        this.#size = size;
+    }
+
+    increaseSize (sizeToAdd) {
+        this.#size += sizeToAdd;
     }
 
     calculateSizeOfDirectoryAndSubdirectories () {
-        this.size = 0;
-        this.subDirectories.forEach((subDirectory) => {
+        this.setSize(0);
+        this.getSubDirectories().forEach((subDirectory) => {
             subDirectory.calculateSizeOfDirectoryAndSubdirectories();
-            this.size += subDirectory.size;
+            this.increaseSize(subDirectory.getSize());
         })
-        this.files.forEach((fileSize) => {
-            this.size += fileSize;
+        this.getFiles().forEach((fileSize) => {
+            this.increaseSize(fileSize);
         })
     }
 }
 
 function calculateTotalSizeOfDirectoriesThatAreNotBiggerThan(directory, maximumSize) {
     let totalSize = 0;
-    directory.subDirectories.forEach((subDirectory) => {
-        const subDirectorySize = subDirectory.size;
+    directory.getSubDirectories().forEach((subDirectory) => {
+        const subDirectorySize = subDirectory.getSize();
         if (subDirectorySize && subDirectorySize <= maximumSize) {
             totalSize += subDirectorySize;
         }
