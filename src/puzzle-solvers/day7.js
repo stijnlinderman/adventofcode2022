@@ -1,5 +1,3 @@
-const LINE_SEPARATOR = "\r\n";
-
 function getSolution (inputDataAsString) {
     const directoryMap = Directory.createDirectoryMapFromInputData(inputDataAsString);
     return calculateTotalSizeOfDirectoriesThatAreNotBiggerThan(directoryMap, 100000);
@@ -18,7 +16,7 @@ class Directory {
     }
 
     static createDirectoryMapFromInputData (inputDataAsString) {
-        const lines = inputDataAsString.split(LINE_SEPARATOR);
+        const lines = require('../util').splitStringLinesIntoArray(inputDataAsString);
         let rootDirectory = new Directory ("root", null);
         const rootSubDirectory = new Directory ("/", rootDirectory);
         rootDirectory.addSubDirectory(rootSubDirectory);

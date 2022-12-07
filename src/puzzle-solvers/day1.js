@@ -1,7 +1,5 @@
-const LINE_SEPARATOR = "\r\n";
-
 function getSolution (inputDataAsString) {
-    const values = inputDataAsString.split(LINE_SEPARATOR);
+    const values = require('../util').splitStringLinesIntoArray(inputDataAsString);
     let highestGroupValue = 0;
     let newGroupValue = 0;
     values.forEach((value) => {
