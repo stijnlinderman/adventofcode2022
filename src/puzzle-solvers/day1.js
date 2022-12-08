@@ -14,4 +14,5 @@ function getSolution (inputDataAsString) {
     })
     return highestGroupValue.toString();
 }
+
 module.exports = {getSolution};
